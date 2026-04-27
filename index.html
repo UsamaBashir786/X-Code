@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>X Code – Build Your Dream. We Write the Code.</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ── Apple System Font Stack (SF Pro) ── */
+:root {
+  --sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --sf-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+
+  /* Color Psychology Palette */
+  --trust: #0A84FF;        /* Apple Blue — trust, competence, reliability */
+  --trust-deep: #003D87;   /* Deep blue — authority, professionalism */
+  --trust-soft: #E8F2FF;   /* Light blue — calm, openness */
+  --growth: #30D158;       /* Green — success, progress, achievement */
+  --growth-soft: #E5F9EC;
+  --energy: #FF9F0A;       /* Amber — urgency, warmth, optimism */
+  --energy-soft: #FFF4E0;
+  --relief: #BF5AF2;       /* Purple — creativity, imagination */
+  --relief-soft: #F5EEFF;
+  --dark: #0A0A0F;         /* Near-black — premium, authority */
+  --mid-dark: #1C1C1E;
+  --text-primary: #1D1D1F;
+  --text-secondary: #48484A;
+  --text-tertiary: #8E8E93;
+  --surface: #FBFBFD;
+  --surface-2: #F2F2F7;
+  --surface-3: #FFFFFF;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.14);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 6px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.08), 0 1px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.10), 0 3px 12px rgba(0,0,0,0.06);
+  --shadow-xl: 0 24px 80px rgba(0,0,0,0.12), 0 6px 24px rgba(0,0,0,0.08);
+  --shadow-blue: 0 8px 32px rgba(10,132,255,0.24), 0 2px 8px rgba(10,132,255,0.12);
+  --shadow-green: 0 8px 32px rgba(48,209,88,0.20);
+}
+
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; box-sizing: border-box; }
+::selection { background: rgba(10,132,255,0.15); }
+
+html, body { font-family: var(--sf); background: var(--surface); color: var(--text-primary); overflow-x: hidden; }
+
+/* ── Scroll Reveal ── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+.reveal-left.visible { opacity: 1; transform: none; }
+.d1 { transition-delay: 0.05s; } .d2 { transition-delay: 0.12s; } .d3 { transition-delay: 0.19s; } .d4 { transition-delay: 0.26s; }
+
+/* ── Navbar ── */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(251,251,253,0.88);
+  backdrop-filter: saturate(200%) blur(24px);
+  -webkit-backdrop-filter: saturate(200%) blur(24px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+#navbar.scrolled { box-shadow: var(--shadow-md); }
+
+.nav-link {
+  font-size: 13.5px; font-weight: 500; color: var(--text-secondary);
+  position: relative; transition: color 0.2s;
+  letter-spacing: -0.01em;
+}
+.nav-link::after {
+  content:''; position:absolute; bottom:-2px; left:0; width:0; height:1.5px;
+  background: var(--trust); transition: width 0.25s ease;
+}
+.nav-link:hover { color: var(--trust); }
+.nav-link:hover::after { width: 100%; }
+
+/* ── Buttons ── */
+.btn-trust {
+  background: var(--trust);
+  color: white; font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+  padding: 10px 22px; border-radius: 980px;
+  transition: background 0.2s, transform 0.18s, box-shadow 0.2s;
+  display: inline-flex; align-items: center; gap: 7px;
+  border: none; cursor: pointer;
+}
+.btn-trust:hover { background: #0066CC; transform: scale(1.03); box-shadow: var(--shadow-blue); }
+
+.btn-ghost {
+  background: transparent; border: 1.5px solid var(--border-strong);
+  color: var(--text-primary); font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+  padding: 9px 22px; border-radius: 980px;
+  transition: all 0.2s; display: inline-flex; align-items: center; gap: 7px;
+  cursor: pointer;
+}
+.btn-ghost:hover { background: var(--surface-2); border-color: var(--trust); color: var(--trust); transform: scale(1.02); }
+
+/* ── HERO ── */
+.hero-wrap {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative; padding-top: 80px; overflow: hidden;
+}
+
+/* Gradient mesh background — color psychology: blue trust + subtle warmth */
+.hero-mesh {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 65% -5%, rgba(10,132,255,0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 15% 80%, rgba(48,209,88,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 85% 75%, rgba(10,132,255,0.05) 0%, transparent 60%),
+    var(--surface);
+}
+
+/* Floating orbs — subliminal depth, movement creates life */
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(72px); pointer-events: none;
+  animation: float-orb 10s ease-in-out infinite;
+}
+.orb-1 { width: 420px; height: 420px; background: rgba(10,132,255,0.07); top: -60px; right: -80px; animation-delay: 0s; }
+.orb-2 { width: 300px; height: 300px; background: rgba(48,209,88,0.06); bottom: 40px; left: -60px; animation-delay: -5s; }
+.orb-3 { width: 200px; height: 200px; background: rgba(191,90,242,0.05); top: 40%; left: 30%; animation-delay: -3s; }
+
+@keyframes float-orb {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.04); }
+}
+
+/* Hero badge — curiosity + belonging */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(10,132,255,0.07); border: 1px solid rgba(10,132,255,0.18);
+  border-radius: 980px; padding: 5px 14px 5px 8px;
+  font-size: 11.5px; font-weight: 600; color: var(--trust);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  animation: badge-in 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+.pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--trust);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+@keyframes badge-in { from{opacity:0;transform:scale(0.9) translateY(8px)} to{opacity:1;transform:none} }
+
+/* Hero headline — typography psychology: authority + emotional resonance */
+.hero-headline {
+  font-family: var(--sf);
+  font-size: clamp(42px, 7vw, 84px);
+  font-weight: 800;
+  line-height: 1.035;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+
+/* Gradient accent word — captures attention, signals premium */
+.grad-word {
+  background: linear-gradient(135deg, #0071e3 0%, #34aadc 40%, #30D158 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Shimmer text for emotional hook */
+.shimmer-text {
+  background: linear-gradient(110deg, var(--text-primary) 20%, var(--trust) 45%, var(--growth) 55%, var(--text-primary) 80%);
+  background-size: 300% auto;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+@keyframes shimmer { to { background-position: -300% center; } }
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 400; color: var(--text-secondary);
+  line-height: 1.65; letter-spacing: -0.01em;
+  max-width: 580px; margin: 0 auto;
+}
+
+/* Hero trust strip */
+.trust-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--text-tertiary);
+  letter-spacing: -0.01em;
+}
+.trust-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-strong); }
+
+/* ── SOCIAL PROOF bar — authority + safety ── */
+.proof-bar {
+  background: var(--surface-3);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+}
+
+/* ── SECTION HEADERS — clarity psychology ── */
+.section-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--trust); display: block; margin-bottom: 12px;
+}
+.section-h2 {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.07; color: var(--text-primary);
+}
+.section-sub {
+  font-size: 17px; color: var(--text-secondary);
+  line-height: 1.65; letter-spacing: -0.01em;
+  max-width: 520px;
+}
+
+/* ── CARDS ── */
+.glass-card {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, border-color 0.25s;
+}
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(10,132,255,0.18);
+}
+
+/* Service card icon hover effect */
+.svc-icon { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.3s; }
+.glass-card:hover .svc-icon { transform: scale(1.12); }
+
+/* Why card ── */
+.why-card {
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow-sm);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  display: flex; align-items: flex-start; gap: 16px; padding: 20px;
+}
+.why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+/* ── STATS — achievement psychology ── */
+.stat-num {
+  font-size: 48px; font-weight: 800; letter-spacing: -0.04em;
+  line-height: 1; color: var(--text-primary);
+}
+.stat-label { font-size: 13px; color: var(--text-tertiary); font-weight: 500; letter-spacing: -0.01em; }
+
+/* ── TESTIMONIALS — social proof, belonging ── */
+.testi-card {
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: 20px; box-shadow: var(--shadow-sm);
+  padding: 28px; transition: box-shadow 0.25s;
+}
+.testi-card:hover { box-shadow: var(--shadow-md); }
+.quote-mark { font-size: 60px; line-height: 0.7; color: var(--trust-soft); font-family: Georgia, serif; }
+
+/* ── CONTACT FORM ── */
+.apple-input {
+  font-family: var(--sf); font-size: 15px; font-weight: 400;
+  color: var(--text-primary); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 13px 16px; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  letter-spacing: -0.01em;
+  -webkit-appearance: none;
+}
+.apple-input::placeholder { color: var(--text-tertiary); }
+.apple-input:focus {
+  outline: none; background: var(--surface-3);
+  border-color: var(--trust);
+  box-shadow: 0 0 0 4px rgba(10,132,255,0.12);
+}
+.apple-input:focus::placeholder { color: transparent; }
+
+.input-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-tertiary); display: block; margin-bottom: 6px;
+}
+
+/* ── TAG chips ── */
+.chip { display: inline-flex; padding: 3px 10px; border-radius: 980px; font-size: 11.5px; font-weight: 600; }
+
+/* ── WORK CARDS ── */
+.work-card { border-radius: 20px; overflow: hidden; position: relative; cursor: pointer; }
+.work-card-inner { transition: transform 0.5s ease; }
+.work-card:hover .work-card-inner { transform: scale(1.04); }
+.work-overlay {
+  position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.work-card:hover .work-overlay { opacity: 1; }
+
+/* ── CTA SECTION ── */
+.cta-bg {
+  background: linear-gradient(145deg, #003D87 0%, #0A84FF 40%, #0066CC 70%, #005BB5 100%);
+  position: relative; overflow: hidden;
+}
+.cta-bg::before {
+  content:''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 80% 30%, rgba(255,255,255,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 50% at 10% 80%, rgba(0,0,0,0.08) 0%, transparent 60%);
+}
+
+/* ── FOOTER ── */
+.footer-bg {
+  background: var(--mid-dark);
+}
+
+/* ── MOBILE MENU ── */
+#mobile-menu { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.3s; }
+#mobile-menu.open { max-height: 480px; opacity: 1; }
+
+/* ── PROGRESS BARS (skill visualization — aspirational psychology) ── */
+.pbar-wrap { height: 4px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.pbar { height: 100%; border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(0.16,1,0.3,1); }
+.pbar.animate { transform: scaleX(1); }
+
+/* ── STICKY WHATSAPP BUTTON (urgency + accessibility) ── */
+.wa-sticky {
+  position: fixed; bottom: 24px; right: 24px; z-index: 200;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: white;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: wa-pop 0.5s 1.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.wa-sticky:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+@keyframes wa-pop { from{opacity:0;transform:scale(0.6)} to{opacity:1;transform:scale(1)} }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     STICKY WHATSAPP (always visible)
+══════════════════════════════════════ -->
+<a href="https://wa.me/923707916659" target="_blank" class="wa-sticky" title="Chat on WhatsApp">
+  <!-- WhatsApp icon SVG -->
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ══════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════ -->
+<nav id="navbar">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;height:54px;display:flex;align-items:center;justify-content:space-between;">
+    <!-- Logo -->
+    <a href="#" style="display:flex;align-items:center;gap:9px;text-decoration:none;">
+      <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#0A84FF,#34aadc);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(10,132,255,0.3);">
+        <span style="color:white;font-weight:800;font-size:15px;letter-spacing:-0.02em;">X</span>
+      </div>
+      <span style="font-weight:700;font-size:16px;letter-spacing:-0.03em;color:var(--text-primary);">X Code</span>
+    </a>
+    <!-- Desktop links -->
+    <div class="hidden-mobile" style="display:flex;gap:32px;">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#why" class="nav-link">Why Us</a>
+      <a href="#portfolio" class="nav-link">Portfolio</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+    <!-- CTA + Hamburger -->
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="#contact" class="btn-trust hide-sm">Get Started</a>
+      <button id="menu-toggle" style="display:none;padding:8px;border:none;background:none;cursor:pointer;border-radius:8px;" class="show-sm">
+        <i data-lucide="menu" style="width:20px;height:20px;color:var(--text-primary);"></i>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" style="border-top:1px solid var(--border);">
+    <div style="max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;flex-direction:column;gap:4px;">
+      <a href="#about" style="padding:10px 0;color:var(--text-secondary);font-size:15px;font-weight:500;text-decoration:none;border-bottom:1px solid var(--border);">About</a>
+      <a href="#services" style="padding:10px 0;color:var(--text-secondary);font-size:15px;font-weight:500;text-decoration:none;border-bottom:1px solid var(--border);">Services</a>
+      <a href="#why" style="padding:10px 0;color:var(--text-secondary);font-size:15px;font-weight:500;text-decoration:none;border-bottom:1px solid var(--border);">Why Us</a>
+      <a href="#portfolio" style="padding:10px 0;color:var(--text-secondary);font-size:15px;font-weight:500;text-decoration:none;border-bottom:1px solid var(--border);">Portfolio</a>
+      <a href="#contact" style="padding:10px 0;color:var(--text-secondary);font-size:15px;font-weight:500;text-decoration:none;border-bottom:1px solid var(--border);">Contact</a>
+      <a href="#contact" class="btn-trust" style="margin-top:12px;justify-content:center;">Get Started Free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO — Psychological triggers:
+     • Relief: "Without Stress" solves pain
+     • Authority: credential badge
+     • Hope: shimmer animation = possibility
+     • Urgency: pulsing dot
+     • Belonging: "we" language
+══════════════════════════════════════ -->
+<section class="hero-wrap">
+  <div class="hero-mesh"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div style="position:relative;z-index:10;max-width:860px;margin:0 auto;padding:0 24px;text-align:center;">
+    <!-- Credibility badge — anchoring + authority -->
+    <div style="margin-bottom:28px;animation:badge-in 0.6s both;">
+      <span class="hero-badge">
+        <span class="pulse-dot"></span>
+        Pakistan's Student-Friendly Dev Studio
+      </span>
+    </div>
+
+    <!-- Headline — addresses PAIN first (student stress), then RELIEF -->
+    <h1 class="hero-headline" style="animation:fadeUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;margin-bottom:0;">
+      Your Project.<br>
+      <span class="shimmer-text">Our Code.</span><br>
+      <span class="grad-word">Delivered.</span>
+    </h1>
+
+    <!-- Subheadline — Empathy + Specificity = trust -->
+    <p class="hero-sub" style="animation:fadeUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;margin:24px auto 36px;">
+      Struggling with your Final Year Project or need a professional website? We build <strong style="color:var(--text-primary);font-weight:600;">modern, fast, and beautiful</strong> solutions — at prices made for students.
+    </p>
+
+    <!-- CTAs — Primary (trust color) + Secondary (curiosity) -->
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;animation:fadeUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;">
+      <a href="#contact" class="btn-trust" style="font-size:15px;padding:13px 28px;">
+        <i data-lucide="rocket" style="width:16px;height:16px;"></i>
+        Start My Project
+      </a>
+      <a href="https://wa.me/923707916659" target="_blank" class="btn-ghost" style="font-size:15px;padding:13px 28px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us Now
+      </a>
+    </div>
+
+    <!-- Trust strip — micro-credibility signals -->
+    <div style="margin-top:48px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;animation:fadeUp 0.7s 0.45s cubic-bezier(0.16,1,0.3,1) both;">
+      <span class="trust-item"><i data-lucide="shield-check" style="width:14px;height:14px;color:var(--growth);"></i>Quality Guaranteed</span>
+      <span class="trust-dot"></span>
+      <span class="trust-item"><i data-lucide="zap" style="width:14px;height:14px;color:var(--energy);"></i>Fast Turnaround</span>
+      <span class="trust-dot"></span>
+      <span class="trust-item"><i data-lucide="banknote" style="width:14px;height:14px;color:var(--trust);"></i>Student Pricing</span>
+      <span class="trust-dot"></span>
+      <span class="trust-item"><i data-lucide="headphones" style="width:14px;height:14px;color:var(--relief);"></i>After-Delivery Support</span>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;opacity:0.35;animation:fadeUp 1s 1s both;">
+    <i data-lucide="chevrons-down" style="width:18px;height:18px;color:var(--text-tertiary);animation:float-orb 2s ease-in-out infinite;"></i>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SOCIAL PROOF BAR — Herd psychology:
+     "Others trust them → I can too"
+══════════════════════════════════════ -->
+<div class="proof-bar">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 36px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;gap:-4px;">
+        <!-- Avatar stack -->
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0A84FF,#34aadc);border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;z-index:3;">A</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#BF5AF2,#9B59B6);border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;margin-left:-8px;z-index:2;">S</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#30D158,#27AE60);border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;margin-left:-8px;z-index:1;">U</div>
+      </div>
+      <span style="font-size:13px;font-weight:500;color:var(--text-secondary);">Trusted by <strong style="color:var(--text-primary);">40+ students</strong> across Pakistan</span>
+    </div>
+    <div style="width:1px;background:var(--border);height:24px;align-self:center;display:none;" class="sep-line"></div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <div style="display:flex;gap:2px;">
+        <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+      </div>
+      <span style="font-size:13px;font-weight:500;color:var(--text-secondary);"><strong style="color:var(--text-primary);">5.0</strong> average rating</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <i data-lucide="check-circle-2" style="width:14px;height:14px;color:var(--growth);"></i>
+      <span style="font-size:13px;font-weight:500;color:var(--text-secondary);"><strong style="color:var(--text-primary);">50+ projects</strong> delivered</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ABOUT — Empathy + Relatability
+     Addresses student anxiety directly
+══════════════════════════════════════ -->
+<section id="about" style="padding:100px 0;background:var(--surface-2);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="grid-responsive">
+      <!-- Text — speaks directly to student pain -->
+      <div class="reveal-left">
+        <span class="section-tag">About X Code</span>
+        <h2 class="section-h2" style="margin-bottom:20px;">We Understand<br>Student Life.</h2>
+        <!-- Empathetic opening — text psychology: speak their pain first -->
+        <p style="font-size:17px;color:var(--text-secondary);line-height:1.7;margin-bottom:16px;letter-spacing:-0.01em;">
+          Final year is stressful. Deadlines are tight. Budgets are tighter. That's exactly why <strong style="color:var(--text-primary);font-weight:600;">X Code</strong> was built — to give every student access to <em>professional-grade</em> development without the professional price.
+        </p>
+        <p style="font-size:16px;color:var(--text-secondary);line-height:1.7;margin-bottom:28px;letter-spacing:-0.01em;">
+          Based in Sahiwal, Punjab — we've helped 40+ students across Pakistan submit their FYPs with confidence, and built business websites that actually convert.
+        </p>
+        <!-- Value statement — specificity builds trust -->
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:32px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:var(--growth-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i data-lucide="check" style="width:12px;height:12px;color:var(--growth);stroke-width:2.5;"></i>
+            </div>
+            <span style="font-size:15px;color:var(--text-secondary);letter-spacing:-0.01em;">Prices made for <strong style="color:var(--text-primary);">students and small businesses</strong></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:var(--growth-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i data-lucide="check" style="width:12px;height:12px;color:var(--growth);stroke-width:2.5;"></i>
+            </div>
+            <span style="font-size:15px;color:var(--text-secondary);letter-spacing:-0.01em;">Communication in <strong style="color:var(--text-primary);">simple Urdu/English</strong> — no tech jargon</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:var(--growth-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i data-lucide="check" style="width:12px;height:12px;color:var(--growth);stroke-width:2.5;"></i>
+            </div>
+            <span style="font-size:15px;color:var(--text-secondary);letter-spacing:-0.01em;"><strong style="color:var(--text-primary);">After-delivery support</strong> — we don't ghost you</span>
+          </div>
+        </div>
+        <a href="#services" style="display:inline-flex;align-items:center;gap:6px;color:var(--trust);font-weight:600;font-size:15px;text-decoration:none;letter-spacing:-0.01em;transition:gap 0.2s;" onmouseover="this.style.gap='12px'" onmouseout="this.style.gap='6px'">
+          See our services <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+        </a>
+      </div>
+
+      <!-- Stats grid — achievement psychology: numbers anchor value -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="reveal d2">
+        <div class="glass-card" style="padding:28px;text-align:center;">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--trust-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <i data-lucide="code-2" style="width:22px;height:22px;color:var(--trust);"></i>
+          </div>
+          <div class="stat-num" style="color:var(--trust);">50+</div>
+          <div class="stat-label" style="margin-top:4px;">Projects Delivered</div>
+        </div>
+        <div class="glass-card" style="padding:28px;text-align:center;">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--growth-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <i data-lucide="smile" style="width:22px;height:22px;color:var(--growth);"></i>
+          </div>
+          <div class="stat-num" style="color:var(--growth);">40+</div>
+          <div class="stat-label" style="margin-top:4px;">Happy Clients</div>
+        </div>
+        <div class="glass-card" style="padding:28px;text-align:center;">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--energy-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <i data-lucide="graduation-cap" style="width:22px;height:22px;color:var(--energy);"></i>
+          </div>
+          <div class="stat-num" style="color:var(--energy);">20+</div>
+          <div class="stat-label" style="margin-top:4px;">FYPs Completed</div>
+        </div>
+        <div class="glass-card" style="padding:28px;text-align:center;">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--relief-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <i data-lucide="star" style="width:22px;height:22px;color:var(--relief);"></i>
+          </div>
+          <div class="stat-num" style="color:var(--relief);">5★</div>
+          <div class="stat-label" style="margin-top:4px;">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SERVICES — Clarity + Specificity
+     Color psychology: each service has 
+     its own color = distinct identity
+══════════════════════════════════════ -->
+<section id="services" style="padding:100px 0;background:var(--surface);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <span class="section-tag">What We Build</span>
+      <h2 class="section-h2">Services That Solve<br>Real Problems</h2>
+      <p class="section-sub" style="margin:16px auto 0;">From FYPs to business websites — we match your exact need with the right solution.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+      <!-- Website Dev — BLUE: trust, competence -->
+      <div class="glass-card reveal d1" style="padding:32px;">
+        <div class="svc-icon" style="width:52px;height:52px;border-radius:16px;background:var(--trust-soft);display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
+          <i data-lucide="monitor" style="width:26px;height:26px;color:var(--trust);"></i>
+        </div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:10px;letter-spacing:-0.025em;">Website Development</h3>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px;">Custom websites using HTML, CSS, JavaScript, PHP, and React. Fast, clean, and optimized for every device.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:18px;border-top:1px solid var(--border);">
+          <span class="chip" style="background:var(--trust-soft);color:var(--trust);">React</span>
+          <span class="chip" style="background:var(--trust-soft);color:var(--trust);">PHP</span>
+          <span class="chip" style="background:var(--trust-soft);color:var(--trust);">JavaScript</span>
+        </div>
+      </div>
+
+      <!-- FYP — PURPLE: creativity, academic -->
+      <div class="glass-card reveal d2" style="padding:32px;">
+        <div class="svc-icon" style="width:52px;height:52px;border-radius:16px;background:var(--relief-soft);display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
+          <i data-lucide="graduation-cap" style="width:26px;height:26px;color:var(--relief);"></i>
+        </div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:10px;letter-spacing:-0.025em;">Final Year Projects</h3>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px;">Complete FYP development — frontend, backend, database, and full documentation. Delivered before your deadline.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:18px;border-top:1px solid var(--border);">
+          <span class="chip" style="background:var(--relief-soft);color:var(--relief);">Full-Stack</span>
+          <span class="chip" style="background:var(--relief-soft);color:var(--relief);">Documentation</span>
+        </div>
+      </div>
+
+      <!-- Portfolio — GREEN: growth, opportunity -->
+      <div class="glass-card reveal d3" style="padding:32px;">
+        <div class="svc-icon" style="width:52px;height:52px;border-radius:16px;background:var(--growth-soft);display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
+          <i data-lucide="user-round" style="width:26px;height:26px;color:var(--growth);"></i>
+        </div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:10px;letter-spacing:-0.025em;">Portfolio Websites</h3>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px;">A stunning personal portfolio that gets you noticed by employers and clients. Modern design, zero templates.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:18px;border-top:1px solid var(--border);">
+          <span class="chip" style="background:var(--growth-soft);color:var(--growth);">Responsive</span>
+          <span class="chip" style="background:var(--growth-soft);color:var(--growth);">Modern</span>
+        </div>
+      </div>
+
+      <!-- Business — AMBER: energy, action, warmth -->
+      <div class="glass-card reveal d4" style="padding:32px;">
+        <div class="svc-icon" style="width:52px;height:52px;border-radius:16px;background:var(--energy-soft);display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
+          <i data-lucide="store" style="width:26px;height:26px;color:var(--energy);"></i>
+        </div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:10px;letter-spacing:-0.025em;">Business Websites</h3>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px;">For shops, startups, and small businesses. SEO-ready, fast loading, designed to turn visitors into customers.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:18px;border-top:1px solid var(--border);">
+          <span class="chip" style="background:var(--energy-soft);color:var(--energy);">SEO Ready</span>
+          <span class="chip" style="background:var(--energy-soft);color:var(--energy);">Fast</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     WHY CHOOSE US — Reassurance Loop
+     Color: diverse icons reduce monotony
+     Text: action verbs + specificity
+══════════════════════════════════════ -->
+<section id="why" style="padding:100px 0;background:var(--surface-2);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <span class="section-tag">Why X Code</span>
+      <h2 class="section-h2">Built Around<br>What You Actually Need</h2>
+      <p class="section-sub" style="margin:16px auto 0;">We've stripped away everything students don't care about and kept what matters most.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;">
+      <!-- Each card: icon (color psychology) + headline (benefit-first) + body (specificity) -->
+      <div class="why-card reveal d1">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--energy-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i data-lucide="wallet" style="width:22px;height:22px;color:var(--energy);"></i>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;letter-spacing:-0.02em;">Student-Friendly Pricing 💰</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Transparent quotes. No hidden charges. Priced so you can afford quality without skipping meals.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal d2">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--trust-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i data-lucide="zap" style="width:22px;height:22px;color:var(--trust);"></i>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;letter-spacing:-0.02em;">Deadline? We Beat It ⚡</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">We set a clear timeline and we stick to it. Your viva won't be delayed because of us.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal d3">
+        <div style="width:44px;height:44px;border-radius:12px;background:#FFF0F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i data-lucide="palette" style="width:22px;height:22px;color:#FF2D55;"></i>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;letter-spacing:-0.02em;">Designs That Impress 🎨</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Modern, clean, Apple-inspired interfaces that make your supervisor raise an eyebrow — in a good way.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal d1">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--growth-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i data-lucide="message-square" style="width:22px;height:22px;color:var(--growth);"></i>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;letter-spacing:-0.02em;">Simple Communication 🤝</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">No tech jargon. We explain everything clearly. WhatsApp, calls, whatever works for you.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal d2">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--relief-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i data-lucide="headphones" style="width:22px;height:22px;color:var(--relief);"></i>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;letter-spacing:-0.02em;">We Stay After Delivery 📞</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Bug after submission? Question during viva? We're still here. We don't disappear once you pay.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal d3">
+        <div style="width:44px;height:44px;border-radius:12px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i data-lucide="shield-check" style="width:22px;height:22px;color:#FF6B00;"></i>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;letter-spacing:-0.02em;">Quality is Non-Negotiable ✅</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Every project is tested and reviewed before we send it. We wouldn't submit it ourselves if it wasn't right.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PORTFOLIO — Visual proof + aspiration
+══════════════════════════════════════ -->
+<section id="portfolio" style="padding:100px 0;background:var(--surface);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <span class="section-tag">Our Work</span>
+      <h2 class="section-h2">Projects We're<br>Proud Of</h2>
+      <p class="section-sub" style="margin:16px auto 0;">Real solutions built for real students and real businesses.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" class="grid-3col">
+      <!-- Each portfolio card uses distinct gradient — visual variety keeps attention -->
+      <div class="work-card glass-card reveal d1" style="min-height:200px;background:linear-gradient(135deg,#dbeafe,#bfdbfe);">
+        <div class="work-card-inner" style="height:100%;display:flex;align-items:center;justify-content:center;padding:32px;min-height:200px;">
+          <div class="work-overlay"></div>
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <i data-lucide="globe" style="width:28px;height:28px;color:#0A84FF;"></i>
+            </div>
+            <p style="font-weight:700;color:var(--text-primary);font-size:15px;letter-spacing:-0.02em;">Business Website</p>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">E-commerce · React</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card glass-card reveal d2" style="min-height:200px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);">
+        <div class="work-card-inner" style="height:100%;display:flex;align-items:center;justify-content:center;padding:32px;min-height:200px;">
+          <div class="work-overlay"></div>
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <i data-lucide="graduation-cap" style="width:28px;height:28px;color:#BF5AF2;"></i>
+            </div>
+            <p style="font-weight:700;color:var(--text-primary);font-size:15px;letter-spacing:-0.02em;">Hospital Management</p>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Final Year Project · PHP</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card glass-card reveal d3" style="min-height:200px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);">
+        <div class="work-card-inner" style="height:100%;display:flex;align-items:center;justify-content:center;padding:32px;min-height:200px;">
+          <div class="work-overlay"></div>
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <i data-lucide="user-round" style="width:28px;height:28px;color:#30D158;"></i>
+            </div>
+            <p style="font-weight:700;color:var(--text-primary);font-size:15px;letter-spacing:-0.02em;">Portfolio Site</p>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Personal · HTML·CSS·JS</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card glass-card reveal d1" style="min-height:200px;background:linear-gradient(135deg,#fef3c7,#fde68a);">
+        <div class="work-card-inner" style="height:100%;display:flex;align-items:center;justify-content:center;padding:32px;min-height:200px;">
+          <div class="work-overlay"></div>
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <i data-lucide="shopping-bag" style="width:28px;height:28px;color:#FF9F0A;"></i>
+            </div>
+            <p style="font-weight:700;color:var(--text-primary);font-size:15px;letter-spacing:-0.02em;">Shop Website</p>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Retail · React + PHP</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card glass-card reveal d2" style="min-height:200px;background:linear-gradient(135deg,#fce7f3,#fbcfe8);">
+        <div class="work-card-inner" style="height:100%;display:flex;align-items:center;justify-content:center;padding:32px;min-height:200px;">
+          <div class="work-overlay"></div>
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <i data-lucide="layout-dashboard" style="width:28px;height:28px;color:#FF2D55;"></i>
+            </div>
+            <p style="font-weight:700;color:var(--text-primary);font-size:15px;letter-spacing:-0.02em;">Admin Dashboard</p>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Analytics · React</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card glass-card reveal d3" style="min-height:200px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);">
+        <div class="work-card-inner" style="height:100%;display:flex;align-items:center;justify-content:center;padding:32px;min-height:200px;">
+          <div class="work-overlay"></div>
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <i data-lucide="book-open" style="width:28px;height:28px;color:#0A84FF;"></i>
+            </div>
+            <p style="font-weight:700;color:var(--text-primary);font-size:15px;letter-spacing:-0.02em;">Library System</p>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Full Stack FYP · CRUD</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center;color:var(--text-tertiary);font-size:14px;margin-top:28px;" class="reveal">
+      Live previews available on request — <a href="#contact" style="color:var(--trust);font-weight:500;text-decoration:none;">ask us for samples</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     TESTIMONIALS — Concrete social proof
+     Text psychology: specific names + roles
+     = authenticity. Star ratings = safety.
+══════════════════════════════════════ -->
+<section id="testimonials" style="padding:100px 0;background:var(--surface-2);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <span class="section-tag">Client Stories</span>
+      <h2 class="section-h2">Don't Just Take<br>Our Word For It</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
+      <div class="testi-card reveal d1">
+        <div style="color:#FF9F0A;font-size:36px;line-height:0.8;margin-bottom:12px;font-family:Georgia,serif;">"</div>
+        <div style="display:flex;gap:3px;margin-bottom:16px;">
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        </div>
+        <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:22px;letter-spacing:-0.01em;">Mera portfolio site itna acha bana ke mere interviewer ne khud compliment kiya. Fast delivery, seedha communication, aur bohot affordable price. Highly recommended!</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0A84FF,#34aadc);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">AK</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;">Ali Khan</p>
+            <p style="font-size:12px;color:var(--text-tertiary);">CS Student, Sahiwal</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d2">
+        <div style="color:#BF5AF2;font-size:36px;line-height:0.8;margin-bottom:12px;font-family:Georgia,serif;">"</div>
+        <div style="display:flex;gap:3px;margin-bottom:16px;">
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        </div>
+        <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:22px;letter-spacing:-0.01em;">Hospital management system mera FYP tha — deadline se pehle deliver kiya, documentation bhi complete thi. Supervisor ne 10/10 diya. X Code ne stress se bacha liya!</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#BF5AF2,#9B59B6);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">SF</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;">Sara Fatima</p>
+            <p style="font-size:12px;color:var(--text-tertiary);">BSCS Final Year, Punjab</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d3">
+        <div style="color:#30D158;font-size:36px;line-height:0.8;margin-bottom:12px;font-family:Georgia,serif;">"</div>
+        <div style="display:flex;gap:3px;margin-bottom:16px;">
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+          <i data-lucide="star" style="width:14px;height:14px;color:#FF9F0A;fill:#FF9F0A;"></i>
+        </div>
+        <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:22px;letter-spacing:-0.01em;">Shop ka website banwaya — design itna clean tha ke customers ne khud comment kiya. Pricing fair hai aur delivery ke baad bhi help ki. Dobara zaroor order karoonga.</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#30D158,#27AE60);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">UM</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;">Usman Malik</p>
+            <p style="font-size:12px;color:var(--text-tertiary);">Business Owner, Sahiwal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTACT — Ease of action
+     Reduce friction: form + WhatsApp both
+     Text: "within hours" = urgency relief
+══════════════════════════════════════ -->
+<section id="contact" style="padding:100px 0;background:var(--surface);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="grid-responsive">
+      <!-- Info side -->
+      <div class="reveal-left">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-h2" style="margin-bottom:16px;">Let's Build<br>Something Great.</h2>
+        <!-- Urgency + relief — "within hours" reduces anxiety about waiting -->
+        <p style="font-size:17px;color:var(--text-secondary);line-height:1.65;margin-bottom:40px;letter-spacing:-0.01em;">
+          Ready to start? Reach out and we'll respond <strong style="color:var(--text-primary);">within hours</strong>, not days. Tell us what you need and we'll give you a free quote.
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <!-- WhatsApp — primary contact (most familiar for Pakistani students) -->
+          <a href="https://wa.me/923707916659" target="_blank" style="display:flex;align-items:center;gap:16px;padding:18px 20px;background:var(--surface-3);border:1px solid var(--border);border-radius:16px;text-decoration:none;transition:all 0.25s;box-shadow:var(--shadow-sm);" onmouseover="this.style.borderColor='#25D366';this.style.background='#f0fdf4';this.style.boxShadow='0 4px 20px rgba(37,211,102,0.12)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface-3)';this.style.boxShadow='var(--shadow-sm)'">
+            <div style="width:46px;height:46px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <div style="flex:1;">
+              <p style="font-size:14px;font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;margin-bottom:2px;">WhatsApp — Fastest Reply</p>
+              <p style="font-size:13px;color:var(--text-secondary);">0319-6977218</p>
+            </div>
+            <i data-lucide="arrow-right" style="width:16px;height:16px;color:var(--text-tertiary);"></i>
+          </a>
+
+         
+
+          <div style="display:flex;align-items:center;gap:16px;padding:18px 20px;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;">
+            <div style="width:46px;height:46px;border-radius:14px;background:#fff0f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i data-lucide="map-pin" style="width:22px;height:22px;color:#FF3B30;"></i>
+            </div>
+            <div>
+              <p style="font-size:14px;font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;margin-bottom:2px;">Location</p>
+              <p style="font-size:13px;color:var(--text-secondary);">Sahiwal, Punjab, Pakistan 🇵🇰</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form — friction-reduced, clear labels, inviting CTA -->
+      <div class="reveal d2">
+        <div style="background:var(--surface-3);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow-xl);padding:36px;">
+          <h3 style="font-size:20px;font-weight:700;color:var(--text-primary);margin-bottom:6px;letter-spacing:-0.025em;">Send Us a Message</h3>
+          <p style="font-size:14px;color:var(--text-tertiary);margin-bottom:28px;">Free quote. No commitment. Reply within hours.</p>
+
+          <form id="contact-form" onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:18px;">
+            <div>
+              <label class="input-label">Your Name</label>
+              <input type="text" required placeholder="Ahmad Ali" class="apple-input"/>
+            </div>
+            <div>
+              <label class="input-label">Phone / WhatsApp</label>
+              <input type="tel" required placeholder="03xx-xxxxxxx" class="apple-input"/>
+            </div>
+            <div>
+              <label class="input-label">Service Needed</label>
+              <select class="apple-input">
+                <option value="">Select a service…</option>
+                <option>Final Year Project (FYP)</option>
+                <option>Website Development</option>
+                <option>Portfolio Website</option>
+                <option>Business Website</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="input-label">Tell Us About Your Project</label>
+              <textarea rows="4" placeholder="Briefly describe what you need — FYP topic, website type, deadline, etc." class="apple-input" style="resize:none;"></textarea>
+            </div>
+            <button type="submit" class="btn-trust" style="font-size:15px;padding:14px 24px;justify-content:center;border-radius:14px;width:100%;margin-top:4px;">
+              <i data-lucide="send" style="width:16px;height:16px;"></i>
+              <span id="btn-text">Send Message — It's Free</span>
+            </button>
+          </form>
+          <!-- Success state — green: achievement, relief -->
+          <div id="form-success" style="display:none;margin-top:16px;padding:16px;background:var(--growth-soft);border:1px solid rgba(48,209,88,0.25);border-radius:12px;display:flex;align-items:center;gap:10px;">
+            <i data-lucide="check-circle-2" style="width:20px;height:20px;color:var(--growth);flex-shrink:0;"></i>
+            <p style="font-size:14px;color:#166534;font-weight:500;letter-spacing:-0.01em;">Message sent! We'll reach out on WhatsApp very soon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CTA BANNER — High urgency
+     Blue gradient: maximum trust + authority
+     Text psychology: direct imperative verbs
+══════════════════════════════════════ -->
+<section class="cta-bg" style="padding:90px 0;">
+  <div style="position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 24px;text-align:center;" class="reveal">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:980px;padding:5px 14px;margin-bottom:24px;">
+      <span class="pulse-dot" style="background:white;"></span>
+      <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.85);">Start Today</span>
+    </div>
+    <h2 style="font-size:clamp(32px,5vw,56px);font-weight:800;color:white;letter-spacing:-0.035em;line-height:1.06;margin-bottom:16px;">
+      Your Deadline Won't<br>Wait. Neither Should You.
+    </h2>
+    <p style="font-size:18px;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:36px;letter-spacing:-0.01em;">
+      Start your project today and get a <strong style="color:white;">free quote within hours</strong>. Fast. Affordable. Professional.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+      <a href="https://wa.me/923707916659" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#0A84FF;font-weight:700;font-size:15px;padding:14px 28px;border-radius:980px;text-decoration:none;transition:all 0.2s;box-shadow:0 4px 24px rgba(0,0,0,0.15);letter-spacing:-0.01em;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 24px rgba(0,0,0,0.15)'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Now
+      </a>
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:white;font-weight:600;font-size:15px;padding:13px 28px;border-radius:980px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.4);transition:all 0.2s;letter-spacing:-0.01em;" onmouseover="this.style.background='rgba(255,255,255,0.12)';this.style.borderColor='rgba(255,255,255,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,0.4)'">
+        <i data-lucide="mail" style="width:16px;height:16px;"></i>
+        Send a Message
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="footer-bg" style="padding:48px 0 32px;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#0A84FF,#34aadc);display:flex;align-items:center;justify-content:center;">
+          <span style="color:white;font-weight:800;font-size:15px;letter-spacing:-0.02em;">X</span>
+        </div>
+        <span style="font-weight:700;font-size:16px;letter-spacing:-0.03em;color:white;">X Code</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;">
+        <a href="#about" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;font-weight:500;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">About</a>
+        <a href="#services" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;font-weight:500;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Services</a>
+        <a href="#portfolio" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;font-weight:500;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Portfolio</a>
+        <a href="#contact" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;font-weight:500;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Contact</a>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a href="https://wa.me/923707916659" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.16)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="tel:+923197616659" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.16)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+          <i data-lucide="phone" style="width:15px;height:15px;color:rgba(255,255,255,0.7);"></i>
+        </a>
+      </div>
+    </div>
+    <div style="padding-top:20px;text-align:center;">
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);letter-spacing:-0.01em;">© 2025 X Code. All rights reserved. Proudly built in Sahiwal, Punjab 🇵🇰</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     RESPONSIVE CSS
+══════════════════════════════════════ -->
+<style>
+@media (max-width: 768px) {
+  .grid-responsive { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .grid-3col { grid-template-columns: 1fr 1fr !important; }
+  .hidden-mobile { display: none !important; }
+  .hide-sm { display: none !important; }
+  .show-sm { display: flex !important; }
+  .sep-line { display: none !important; }
+  .hero-headline { letter-spacing: -0.03em !important; }
+}
+@media (min-width: 769px) {
+  .show-sm { display: none !important; }
+  .hidden-mobile { display: flex !important; }
+}
+@media (max-width: 480px) {
+  .grid-3col { grid-template-columns: 1fr !important; }
+}
+</style>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script>
+// Lucide icons
+lucide.createIcons();
+
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile menu
+const toggle = document.getElementById('menu-toggle');
+const menu = document.getElementById('mobile-menu');
+if (toggle) {
+  toggle.addEventListener('click', () => {
+    menu.classList.toggle('open');
+    const icon = toggle.querySelector('[data-lucide]');
+    const isOpen = menu.classList.contains('open');
+    icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+    lucide.createIcons();
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    menu.classList.remove('open');
+    const icon = toggle.querySelector('[data-lucide]');
+    icon.setAttribute('data-lucide', 'menu');
+    lucide.createIcons();
+  }));
+}
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.10 });
+document.querySelectorAll('.reveal, .reveal-left').forEach(el => revealObserver.observe(el));
+
+// Form submit
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btn-text');
+  const success = document.getElementById('form-success');
+  btn.textContent = 'Sending…';
+  setTimeout(() => {
+    document.getElementById('contact-form').reset();
+    success.style.display = 'flex';
+    btn.textContent = 'Send Message — It\'s Free';
+    lucide.createIcons();
+  }, 1200);
+}
+
+// keyframe animation injection
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to { opacity:1; transform:none; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
